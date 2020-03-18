@@ -64,3 +64,5 @@ message ArtAsset{
     ColorProtobufv1 color = 5;
     ColorProtobufv2 colorNew = 6;
 }
+
+
