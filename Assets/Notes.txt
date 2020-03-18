@@ -1,1 +1,2 @@
-    
+for local package dev, this worked fine
+file:D:/dev/AsinkProtobufPackage

@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "com.e7.protobuf-unity": "ssh://git@github.com/5argon/protobuf-unity.git",
-    "com.google.protobuf": "file:D:/dev/AsinkProtobufPackage",
+    "com.google.protobuf": "git@github.com:hardcoded2/ProtobufUnity.git",
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.2d.tilemap": "1.0.0",
     "com.unity.ads": "2.0.8",
@@ -50,6 +50,10 @@
     "com.e7.protobuf-unity": {
       "revision": "HEAD",
       "hash": "54efa9d8767d0c06b31d984b4c200c0465e0e8a7"
+    },
+    "com.google.protobuf": {
+      "revision": "HEAD",
+      "hash": "49c78b45938607df1abf5edb81c62d5816703863"
     }
   }
 }
