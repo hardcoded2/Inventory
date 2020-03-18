@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using Google.Protobuf;
-using Sirenix.Utilities;
 
 namespace ExampleData
 {
@@ -18,8 +17,20 @@ namespace ExampleData
         public bool IsSupportedType<T>()
         {
             var type = typeof(T);
+            
             //TODO: cache results to prevent reflection at runtime
-            return HasDefaultConstructor(type) && type.ImplementsOrInherits(typeof(IMessage));
+            return HasDefaultConstructor(type) && Implements(type,typeof(IMessage));
+        }
+
+        private bool Implements(Type t, Type impl)
+        {
+            foreach (var @interface in t.GetInterfaces())
+            {
+                if (@interface == impl) 
+                    return true;
+            }
+
+            return false;
         }
 
         private bool HasDefaultConstructor(Type type)
