@@ -1,0 +1,8 @@
+{
+    "name": "com.google.protobuf",
+    "author": "google",
+    "displayName": "Google protobuf",
+    "version": "3.11.4",
+    "unity": "2018.1",
+    "description": "Google protobuf packaged lcoally as an example."
+}

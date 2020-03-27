@@ -1,3 +1,5 @@
+using System.IO.Compression;
+
 namespace Protobufs
 {
     public class ColorMigration
@@ -16,5 +18,6 @@ namespace Protobufs
             };
             return color;
         }
+
     }
 }

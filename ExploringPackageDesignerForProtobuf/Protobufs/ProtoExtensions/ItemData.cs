@@ -46,7 +46,6 @@ namespace Protobufs
             var lastKnownItemHash = buildInfo.Get(BuildInfoDatastore.Keys.ITEM_DATA_VERSION);
             var currentHash = GetItemDataHash();
 
-
             bool needsMigration = lastKnownItemHash != currentHash;
             Debug.Log($"TestForMigration last hash {lastKnownItemHash} current hash {currentHash} need migration {needsMigration}");
             //TODO: editor pref for migration re-running
