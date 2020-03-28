@@ -7,6 +7,11 @@
     <ItemGroup>
       <PackageReference Include="Google.Protobuf" Version="3.11.4" />
     </ItemGroup>
+  <ItemGroup>
+    <Content Include=".\..\ExampleCustomProtBufStructure\gen\*.cs" />
+  </ItemGroup>
+
+  <!--
 
     <ItemGroup>
       <Content Include="..\..\ExampleCustomProtBufStructure\gen\.gitignore">
@@ -17,6 +22,7 @@
       </Content>
     </ItemGroup>
 
+  
     <ItemGroup>
       <Compile Include="..\..\ExampleCustomProtBufStructure\gen\ItemData.cs">
         <Link>gen\ItemData.cs</Link>
@@ -28,5 +34,6 @@
         <Link>gen\TileData.cs</Link>
       </Compile>
     </ItemGroup>
+-->
 
-</Project>
+  </Project>

@@ -49,5 +49,45 @@ namespace WebApplication.Tests
             Assert.Equal(HttpStatusCode.Redirect, response.StatusCode);
             Assert.Equal("/", response.Headers.Location.OriginalString);
         }
+        [Fact]
+        public async Task TestProto()
+        {
+            // Arrange
+            //var defaultPage = await _client.GetAsync("/testproto");
+
+            //since we're just sending raw response (no headers/etc) for the first pass, this should work
+            //var content = await HtmlHelpers.GetDocumentAsync(defaultPage);
+            
+            var content = await _client.GetByteArrayAsync("/testproto"); //await HtmlHelpers.GetDocumentAsync(defaultPage);
+
+            Assert.NotNull(content);
+            Assert.NotEmpty(content);
+            Assert.True(content.Length > 0);
+            var parsed = PlayerData.Parser.ParseFrom(content);
+            Assert.Equal( Startup.GetTestProto().DataVersion, parsed.DataVersion);
+            // Assert
+            //Assert.Equal(Startup.GetTestProto(), content.);
+
+        }
+        [Fact]
+        public async Task TestRawStringAttached()
+        {
+            // Arrange
+            //var defaultPage = await _client.GetAsync("/testproto");
+
+            //since we're just sending raw response (no headers/etc) for the first pass, this should work
+            //var content = await HtmlHelpers.GetDocumentAsync(defaultPage);
+            
+            var content = await _client.GetByteArrayAsync("/testrawstringattach"); //await HtmlHelpers.GetDocumentAsync(defaultPage);
+
+            Assert.NotNull(content);
+            Assert.NotEmpty(content);
+            Assert.True(content.Length > 0);
+            
+            Assert.Equal( "HELLO WORLD", content.ToString());
+            // Assert
+            //Assert.Equal(Startup.GetTestProto(), content.);
+
+        }
     }
 }
