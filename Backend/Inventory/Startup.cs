@@ -32,7 +32,15 @@ namespace WebApplication
             }
 
             app.UseRouting();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapGet("/", async context =>
+                {
+                    var response = context.Response;
+                    var multi = new MultipartResponse(response);
+                    await multi.SendAsFileBody(GetTestString());
 
+                });
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapGet("/foo", async context => { await context.Response.WriteAsync("Hello World!"); });
@@ -56,26 +64,7 @@ namespace WebApplication
                     
                 });
             });
-            app.UseEndpoints(endpoints =>
-            {
-                //testrawstringattach
-                endpoints.MapGet("/", async context =>
-                {
-                    var response = context.Response;
-                    var multi = new MultipartResponse(response);
-                    await multi.SendAsMultipartBytes("file", GetTestString());
-                    /*
-                     var multi = new MultipartContent();
-                    using (MultipartFormDataContent multipartFormDataContent = new MultipartFormDataContent())
-                    {
-                        //multipartFormDataContent.Add(new ByteArrayContent(GetTestProtoBytes()),"File");
-                        multipartFormDataContent.Add(new StringContent(GetTestString()),"File");
-                        
-                        response.BodyWriter.WriteAsync(multipartFormDataContent);
-                    }
-                    */
-
-                });
+            
             });
         }
 
