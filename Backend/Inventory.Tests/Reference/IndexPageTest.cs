@@ -30,7 +30,7 @@ namespace WebApplication.Tests
                 AllowAutoRedirect = false
             });
         }
-        
+        /*
         [Fact]
         public async Task Post_DeleteAllMessagesHandler_ReturnsRedirectToRoot()
         {
@@ -49,6 +49,8 @@ namespace WebApplication.Tests
             Assert.Equal(HttpStatusCode.Redirect, response.StatusCode);
             Assert.Equal("/", response.Headers.Location.OriginalString);
         }
+        */
+
         [Fact]
         public async Task TestProto()
         {
@@ -83,8 +85,8 @@ namespace WebApplication.Tests
             Assert.NotNull(content);
             Assert.NotEmpty(content);
             Assert.True(content.Length > 0);
-            
-            Assert.Equal( "HELLO WORLD", content.ToString());
+            var textResult = System.Text.Encoding.UTF8.GetString(content);
+            Assert.Equal( "HELLO WORLD", textResult);
             // Assert
             //Assert.Equal(Startup.GetTestProto(), content.);
 
