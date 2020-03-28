@@ -39,22 +39,11 @@ namespace WebApplication
             });
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGet("/testrawstringattach", async context =>
+                endpoints.MapGet("/testrawstring", async context =>
                 {
                     var response = context.Response;
-                    await SendString(response.BodyWriter,GetTestString());
-                    
-                    /*
-                    //https://stackoverflow.com/questions/5895684/how-to-send-file-in-httpresponse not async though
-                    response.Clear();
-                    const string SaveAsFileName = "TestProto";
-                    response.Headers.Add("content-disposition", "attachment;filename=" + SaveAsFileName);
-                    response.ContentType = "application/octet-stream";
-                    response.BinaryWrite(GetTestProto());
-                    response.End();
-                    */
-                    //await context.Response
-                    //await context.Response.WriteAsync(GetTestProto());
+                    var responder = new MultipartResponse(context.Response);
+                    await responder.AsBody(GetTestString());
                 });
             });
             app.UseEndpoints(endpoints =>
@@ -62,72 +51,33 @@ namespace WebApplication
                 endpoints.MapGet("/testproto", async context =>
                 {
                     var response = context.Response;
-                    await response.BodyWriter.WriteAsync(GetTestProtoBytes());
-                    Console.WriteLine("wrote proto body");
+                    var responder = new MultipartResponse(context.Response);
+                    await responder.AsBody(GetTestProtoBytes());
                     
-                    /*
-                    //https://stackoverflow.com/questions/5895684/how-to-send-file-in-httpresponse not async though
-                    response.Clear();
-                    const string SaveAsFileName = "TestProto";
-                    response.Headers.Add("content-disposition", "attachment;filename=" + SaveAsFileName);
-                    response.ContentType = "application/octet-stream";
-                    response.BinaryWrite(GetTestProto());
-                    response.End();
-                    */
-                    //await context.Response
-                    //await context.Response.WriteAsync(GetTestProto());
                 });
             });
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGet("/testrawstringheader", async context =>
+                endpoints.MapGet("/testrawstringattach", async context =>
                 {
                     var response = context.Response;
-                    var multi = new MultipartContent();
-                    //var streamProvider = new FileMultipartSection(new MultipartSection(GetTestProtoBytes()));
-                    //await response.Headers. .BodyWriter.WriteAsync(GetTestProtoBytes());
+                    var multi = new MultipartResponse(response);
+                    await multi.SendAsMultipartBytes("file", GetTestString());
+                    /*
+                     var multi = new MultipartContent();
                     using (MultipartFormDataContent multipartFormDataContent = new MultipartFormDataContent())
                     {
                         //multipartFormDataContent.Add(new ByteArrayContent(GetTestProtoBytes()),"File");
                         multipartFormDataContent.Add(new StringContent(GetTestString()),"File");
+                        
                         response.BodyWriter.WriteAsync(multipartFormDataContent);
-                        /*
-                        multipartFormDataContent.Add(new StringContent(JsonConvert.SerializeObject(myFile), Encoding.UTF8, "application/json"), nameof(MyFile));
-
-                        HttpResponseMessage httpResult = await httpClient.PostAsync("api/uploaddownload/upload", multipartFormDataContent).ConfigureAwait(false);
-
-                        httpResult.EnsureSuccessStatusCode();
-                        stream = await httpResult.Content.ReadAsStreamAsync().ConfigureAwait(false);
-                        */
                     }
-                    
-                    /*
-                    //https://stackoverflow.com/questions/5895684/how-to-send-file-in-httpresponse not async though
-                    response.Clear();
-                    const string SaveAsFileName = "TestProto";
-                    response.Headers.Add("content-disposition", "attachment;filename=" + SaveAsFileName);
-                    response.ContentType = "application/octet-stream";
-                    response.BinaryWrite(GetTestProto());
-                    response.End();
                     */
-                    //await context.Response
-                    //await context.Response.WriteAsync(GetTestProto());
+
                 });
             });
         }
 
-        private async Task SendString(PipeWriter writer, string str)
-        {
-            var strBytes = System.Text.Encoding.UTF8.GetBytes(str);
-            await writer.WriteAsync(strBytes);
-            Console.WriteLine($"wrote text body {str}");
-        }
-        private async Task SendStringAsAttachment(HttpContext context, string str)
-        {
-            var strBytes = System.Text.Encoding.UTF8.GetBytes(str);
-            await writer.WriteAsync(strBytes);
-            Console.WriteLine($"wrote text body {str}");
-        }
         public static string GetTestString()
         {
             return "HELLO WORLD";

@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Xunit;
+using Xunit.Abstractions;
 
 //roughly based on docs from https://docs.microsoft.com/en-us/aspnet/core/test/integration-tests?view=aspnetcore-3.1
 namespace WebApplication.Tests
@@ -21,10 +22,13 @@ namespace WebApplication.Tests
         private readonly WebApplicationFactorySetup<Startup>
             _factory;
 
+        private readonly ITestOutputHelper m_TestOutputHelper;
+
         public IndexPageTests(
-            WebApplicationFactorySetup<Startup> factory)
+            WebApplicationFactorySetup<Startup> factory, ITestOutputHelper testOutputHelper)
         {
             _factory = factory;
+            m_TestOutputHelper = testOutputHelper;
             _client = factory.CreateClient(new WebApplicationFactoryClientOptions
             {
                 AllowAutoRedirect = false
@@ -80,7 +84,36 @@ namespace WebApplication.Tests
             //since we're just sending raw response (no headers/etc) for the first pass, this should work
             //var content = await HtmlHelpers.GetDocumentAsync(defaultPage);
             
-            var content = await _client.GetByteArrayAsync("/testrawstringattach"); //await HtmlHelpers.GetDocumentAsync(defaultPage);
+            var content = await _client.GetByteArrayAsync("/testrawstring"); //await HtmlHelpers.GetDocumentAsync(defaultPage);
+
+            Assert.NotNull(content);
+            Assert.NotEmpty(content);
+            Assert.True(content.Length > 0);
+            var textResult = System.Text.Encoding.UTF8.GetString(content);
+            Assert.Equal( Startup.GetTestString(), textResult);
+            // Assert
+            //Assert.Equal(Startup.GetTestProto(), content.);
+
+        }
+        [Fact]
+        public async Task TestRawStringAttachedHeader()
+        {
+            // Arrange
+            //var defaultPage = await _client.GetAsync("/testproto");
+
+            //since we're just sending raw response (no headers/etc) for the first pass, this should work
+            //var content = await HtmlHelpers.GetDocumentAsync(defaultPage);
+            var response = await _client.GetAsync("/testrawstringattach");
+            Assert.NotEmpty(response.Headers);
+            foreach (var header in response.Headers)
+            {
+                var key = header.Key;
+                var value = string.Join(' ', header.Value);
+                m_TestOutputHelper.WriteLine($" header{key} values{value}");
+                Console.WriteLine($" header{key} values{value}");
+            }
+            /*
+            //var content = await _client.GetByteArrayAsync("/testrawstringattach"); //await HtmlHelpers.GetDocumentAsync(defaultPage);
 
             Assert.NotNull(content);
             Assert.NotEmpty(content);
@@ -89,6 +122,7 @@ namespace WebApplication.Tests
             Assert.Equal( "HELLO WORLD", textResult);
             // Assert
             //Assert.Equal(Startup.GetTestProto(), content.);
+            */
 
         }
     }
