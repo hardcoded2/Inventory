@@ -46,15 +46,20 @@ namespace WebApplication
 
             await m_Response.CompleteAsync();
         }
+        
+        public async Task SendAsMultipartBytes(string fileName,string data)
+        {
+            await SendAsMultipartBytes(fileName, encoding.GetBytes(data));
+        }
         //not working, not sure how to get multipartformdatacontent to work with the new piep
         //example of expected output: https://ec.haxx.se/http/http-multipart
         public async Task SendAsMultipartBytes(string fileName,byte[] data)
         {
             MultipartFormDataContent formContent = FileContentAsForm(fileName,data);
-            var stringbytes2 = await formContent.ReadAsByteArrayAsync();
-
+            var stringBytes = await formContent.ReadAsByteArrayAsync();
+            
             HeadersToOctetStream(m_Response.Headers);
-            await m_Response.WriteAsync(encoding.GetString(stringbytes2));
+            await m_Response.WriteAsync(encoding.GetString(stringBytes));
 
             await m_Response.CompleteAsync();
         }
@@ -80,9 +85,6 @@ namespace WebApplication
                 headers.Remove(contentType);
             headers.Add(contentType, octetStream);
         }
-        public async Task SendAsMultipartBytes(string fileName,string data)
-        {
-            await SendAsMultipartBytes(fileName, encoding.GetBytes(data));
-        }
+        
     }
 }
