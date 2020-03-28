@@ -35,7 +35,7 @@ namespace WebApplication
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGet("/", async context => { await context.Response.WriteAsync("Hello World!"); });
+                endpoints.MapGet("/foo", async context => { await context.Response.WriteAsync("Hello World!"); });
             });
             app.UseEndpoints(endpoints =>
             {
@@ -58,7 +58,8 @@ namespace WebApplication
             });
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGet("/testrawstringattach", async context =>
+                //testrawstringattach
+                endpoints.MapGet("/", async context =>
                 {
                     var response = context.Response;
                     var multi = new MultipartResponse(response);

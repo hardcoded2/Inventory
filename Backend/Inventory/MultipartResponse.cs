@@ -5,6 +5,7 @@ using System.IO.Pipelines;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
@@ -108,31 +109,102 @@ namespace WebApplication
             m_Response.Body = await formContent.ReadAsStreamAsync();
             await m_Response.Body.FlushAsync();
         }
-        public async Task SendAsMultipartBytes(string fileName,byte[] data)
+        public async Task SendAsMultipartBytes1(string fileName,byte[] data)
         {
-            MultipartFormDataContent formContent = new MultipartFormDataContent();
+            MultipartFormDataContent formContent = new MultipartFormDataContent("----------------------------------");
             ByteArrayContent byteArray = new ByteArrayContent(data);
             formContent.Add(byteArray, "file", fileName);
             
             var formContentStream = await formContent.ReadAsStreamAsync();
             
-            byte[] formBytes = new byte[formContentStream.Length];
+            
+            formContentStream.Position = 0;
             
             //assuming read all at once
-            await formContentStream.ReadAsync(formBytes);
+            //await formContentStream.ReadAsync();
             var stringbytes2 = await formContent.ReadAsStringAsync();
-            Console.WriteLine("TEST1");
-            Console.WriteLine(encoding.GetString(formBytes));
+            formContentStream.Position = 0;
+
             Console.WriteLine("TEST2");
             Console.WriteLine(stringbytes2);
             Console.WriteLine("TEST3");
-            m_Response.Body = formContentStream; //is this where it belongs? how about headers?
-            await m_Response.StartAsync();
-            await m_Response.Body.FlushAsync(); //afaik this should send the response
-            await m_Response.CompleteAsync();
-
+            //await m_Response.StartAsync();
+            m_Response.Body = new MemoryStream(encoding.GetBytes("HELLO WORLD1111")); //is this where it belongs? how about headers?
+            //await m_Response.Body.FlushAsync(); //afaik this should send the response
+            //await m_Response.CompleteAsync();
+            
+            await m_Response.BodyWriter.FlushAsync();
+            //await m_Response.BodyWriter.WriteAsync(encoding.GetBytes("HELLO1"));
+            
             
             Console.WriteLine("STUFF");
+        }
+        public async Task SendAsMultipartBytes2(string fileName,byte[] data)
+        {
+            MultipartFormDataContent formContent = new MultipartFormDataContent("----------------------------------");
+            ByteArrayContent byteArray = new ByteArrayContent(data);
+            formContent.Add(byteArray, "file", fileName);
+            
+            var formContentStream = await formContent.ReadAsStreamAsync();
+            
+            
+            formContentStream.Position = 0;
+            
+            //assuming read all at once
+            //await formContentStream.ReadAsync();
+            var stringbytes2 = await formContent.ReadAsStringAsync();
+            formContentStream.Position = 0;
+
+            Console.WriteLine("TEST2");
+            Console.WriteLine(stringbytes2);
+            Console.WriteLine("TEST3");
+            //await m_Response.StartAsync();
+            m_Response.Body = new MemoryStream(encoding.GetBytes("HELLO WORLD1111")); //is this where it belongs? how about headers?
+            //await m_Response.Body.FlushAsync(); //afaik this should send the response
+            //await m_Response.CompleteAsync();
+            
+            await m_Response.BodyWriter.FlushAsync();
+            //await m_Response.BodyWriter.WriteAsync(encoding.GetBytes("HELLO1"));
+            
+            
+            Console.WriteLine("STUFF");
+        }
+        public async Task SendAsMultipartBytes(string fileName,byte[] data)
+        {
+            MultipartFormDataContent formContent = new MultipartFormDataContent("--");
+            //formContent.Headers.Add("Content-Type", "application/octet-stream");
+            ByteArrayContent byteArray = new ByteArrayContent(data);
+            //byteArray.Headers.Add("Content-Type", "application/octet-stream");
+            formContent.Add(byteArray, "file", fileName);
+            //var formContentStream = await formContent.ReadAsStreamAsync();
+            var stringbytes2 = await formContent.ReadAsByteArrayAsync();
+            m_Response.Headers.Add("MOO","COWS");
+            formContent.Headers.Remove("Content-Type");
+            formContent.Headers.Add("Content-Type", "application/octet-stream");
+            
+            m_Response.Headers.Remove("Content-Type");
+            m_Response.Headers.Add("Content-Type", "application/octet-stream");
+            /*
+            foreach (var header in formContent.Headers)
+            {
+                if(header.Key == "Content-Length") continue;
+                var contentValue = string.Join("\r\n", header.Value);
+                m_Response.Headers.Add(header.Key,contentValue);
+                Console.Write($"adding header {header.Key} and value{contentValue}\n");
+            }
+            */
+            
+            //m_Response.Headers.Add("File",);
+            await m_Response.WriteAsync(encoding.GetString(stringbytes2));
+
+            await m_Response.CompleteAsync();
+            //await m_Response.Body.WriteAsync(encoding.GetBytes("MY BODY"));
+            //await m_Response.StartAsync();
+            //await m_Response.CompleteAsync();
+
+            //await m_Response.Body.WriteAsync(encoding.GetBytes("TEST123"));
+            //await m_Response.CompleteAsync();
+            //await m_Response.BodyWriter.WriteAsync(stringbytes2);    
         }
         public async Task SendAsMultipartBytes(string fileName,string data)
         {
