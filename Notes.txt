@@ -1,14 +1,3 @@
-
-Issue #1
-new protobuf files need to be created with crlf line endings - .gitattributes in that folder will handle files from the repo, but you must 
-POTENTIAL solution:
-	1) automatically unix2dos/dos2unix the files and/or manully change the line endings while reading them in C#
-
-Issue #2
-mac and/or certain ides will not automatically run the hash before building
-
-Issue #3
-requires md5sum be installed on local machine, meaning windows needs cygwin in your path
---this is a result of using a command line tool instead of a custom C# wrapper
-
-
+version https://git-lfs.github.com/spec/v1
+oid sha256:3a22a131569be3efd7ce5a62bb87763ea67bd6cfe13f1dd80eb4a0c59cb6a16d
+size 546

@@ -1,11 +1,3 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
-
-    <PropertyGroup>
-        <TargetFramework>netcoreapp3.1</TargetFramework>
-    </PropertyGroup>
-
-    <ItemGroup>
-      <ProjectReference Include="..\ExampleCustomProtoBufStructure\ExampleCustomProtoBufStructure.csproj" />
-    </ItemGroup>
-
-</Project>
+version https://git-lfs.github.com/spec/v1
+oid sha256:a62ed37978f2794354190187efa29ec232cca14004bca1c6edec0ec6145d2f48
+size 295

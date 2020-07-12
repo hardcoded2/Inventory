@@ -1,3 +1,3 @@
-#potentially need to add native google protos too, ie C:\ProgramData\chocolatey\lib\protoc\tools\include on my machine
-#
-protoc.exe --proto_path=protos --csharp_out=gen --csharp_opt=base_namespace=InventoryProtos protos/*.proto
+version https://git-lfs.github.com/spec/v1
+oid sha256:a88afcc1062381adde6a3cd9af826d98d7a2490e4f8b47cddc9cb55345d7c628
+size 228

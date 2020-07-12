@@ -1,24 +1,3 @@
-using UnityEngine;
-
-namespace ExampleData
-{
-    public class ProtoTileItem //synchronous version
-    {
-        public TileItem TileItemFromTileData(TileData tileData)
-        {
-            var tileItem = new TileItem()
-            {
-                Tex = new Texture2D(tileData.TileXSize,tileData.TileYSize)
-            };
-            var bytes = tileData.TileImageData.ToByteArray(); //FIXME: ToByteArray creates an extra copy of tiledata
-            tileItem.Tex.LoadRawTextureData(bytes);
-            return tileItem;
-        }
-        //conflates parsing with the domain specific stuff like tranlating to usable texture
-        public TileItem TileItemFromTileData(byte[] tileBytes)
-        {
-            var tileData = TileData.Parser.ParseFrom(tileBytes);
-            return TileItemFromTileData(tileData);
-        }
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:620e0f4eeb2cda6b830a83d995d85abd4dd9c575ed7b7bed984d153f6cf26ed2
+size 831
