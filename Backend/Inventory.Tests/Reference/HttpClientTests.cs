@@ -1,3 +1,50 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:dab785bb879a518337330854b6c2e2c2eee49af726be06ac2ce5f09e3468fc07
-size 1393
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.Testing;
+using WebApplication;
+using Xunit;
+
+public class HttpClientTests 
+    : IClassFixture<WebApplicationFactory<Startup>>
+{
+    private readonly WebApplicationFactory<Startup> _factory;
+
+    public HttpClientTests(WebApplicationFactory<Startup> factory)
+    {
+        _factory = factory;
+    }
+
+    [Theory]
+    [InlineData("/")] /*
+    [InlineData("/Index")]
+    [InlineData("/About")]
+    [InlineData("/Privacy")]
+    [InlineData("/Contact")] */
+    public async Task Get_EndpointsReturnSuccessAndCorrectContentType(string url)
+    {
+        // Arrange
+        var client = _factory.CreateClient();
+
+        // Act
+        var response = await client.GetAsync(url);
+
+        // Assert
+        response.EnsureSuccessStatusCode(); // Status Code 200-299
+        Assert.Equal("text/html; charset=utf-8", 
+            response.Content.Headers.ContentType.ToString());
+    }
+    [Theory]
+    [InlineData("/")] 
+    public async Task TestHelloWorldResponse(string url)
+    {
+        // Arrange
+        var client = _factory.CreateClient();
+
+        // Act
+        var response = await client.GetAsync(url);
+
+        // Assert
+        response.EnsureSuccessStatusCode(); // Status Code 200-299
+        Assert.Equal("Hello World!", 
+            response.Content.ToString());
+    }
+}

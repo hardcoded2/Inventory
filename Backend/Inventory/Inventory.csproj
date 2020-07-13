@@ -1,3 +1,15 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:c843e037874e0068a57c2c65a621b84b6f848b38d3405706755dc1bd355d1b1e
-size 306
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\ExampleCustomProtoBufStructure\ExampleCustomProtoBufStructure.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="System.IO.Pipelines" Version="4.7.0" />
+    </ItemGroup>
+
+</Project>

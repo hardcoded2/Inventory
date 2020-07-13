@@ -1,3 +1,44 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:0b12427a740d634e9f9b8c35afeda0f963d4e57562053880f0e22365695cb4b4
-size 1399
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Threading;
+using System.Threading.Tasks;
+using AngleSharp;
+using AngleSharp.Html.Dom;
+using AngleSharp.Io;
+
+namespace WebApplication.Tests
+{
+    public class HtmlHelpers
+    {
+        public static async Task<IHtmlDocument> GetDocumentAsync(HttpResponseMessage response)
+        {
+            var content = await response.Content.ReadAsStringAsync();
+            var document = await BrowsingContext.New()
+                .OpenAsync(ResponseFactory, CancellationToken.None);
+            return (IHtmlDocument)document;
+
+            void ResponseFactory(VirtualResponse htmlResponse)
+            {
+                htmlResponse
+                    .Address(response.RequestMessage.RequestUri)
+                    .Status(response.StatusCode);
+
+                MapHeaders(response.Headers);
+                MapHeaders(response.Content.Headers);
+
+                htmlResponse.Content(content);
+
+                void MapHeaders(HttpHeaders headers)
+                {
+                    foreach (var header in headers)
+                    {
+                        foreach (var value in header.Value)
+                        {
+                            htmlResponse.Header(header.Key, value);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

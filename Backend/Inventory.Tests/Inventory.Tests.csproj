@@ -1,3 +1,23 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:43ab1a55f63292e5946b2d97b149ec8685bb2f3faa7b36afa076d042a66765ca
-size 881
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+
+        <IsPackable>false</IsPackable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="AngleSharp" Version="0.13.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="3.1.0" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.0" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
+        <PackageReference Include="xunit" Version="2.4.0" />
+        <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
+        <PackageReference Include="coverlet.collector" Version="1.2.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Inventory\Inventory.csproj" />
+    </ItemGroup>
+
+</Project>
