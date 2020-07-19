@@ -1,8 +1,4 @@
 language: csharp
-os:
-  - linux
-  - osx
-  - windows
 
 dist: trusty
 
@@ -12,6 +8,7 @@ git:
 
 #osx not sure what is actually needed since source was geared towards linux
 #windows is new and added by first time travis user :)
+
 matrix: 
   include:
     - os: linux
@@ -20,7 +17,7 @@ matrix:
         - ./build.sh clean
         - ./build.sh compile
       dist: trusty
-      mono:
+      mono: 
         - 5.0.0
       addons: 
         apt:
@@ -49,6 +46,8 @@ matrix:
               - libssl-dev
               - libunwind8
     - os: windows
+      mono: none
+      dotnet: 3.1
       script:
         - .\build.ps1 clean+compile
         - .\build.ps1 clean
