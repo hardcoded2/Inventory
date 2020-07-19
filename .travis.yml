@@ -1,8 +1,7 @@
 language: csharp
 os:
-  - osx
   - linux
-  - windows
+  - osx
 
 sudo: required
 dist: trusty
@@ -31,3 +30,13 @@ script:
   - ./build.sh clean
   - ./build.sh compile
 #  - ./build.sh pack+test
+
+os: windows
+language: csharp
+mono: none
+dotnet: 3.1
+
+script:
+- dotnet --version
+- dotnet restore
+- dotnet build
