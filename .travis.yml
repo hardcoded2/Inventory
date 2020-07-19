@@ -2,31 +2,57 @@ language: csharp
 os:
   - linux
   - osx
+  - windows
 
-sudo: required
 dist: trusty
 
 git:
   symlinks: true
   depth: false
 
-addons:
-  apt:
-    sources:
-    - sourceline: 'deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-ubuntu-trusty-prod trusty main'
-      key_url: 'https://packages.microsoft.com/keys/microsoft.asc'
-    packages:
-    - gettext
-    - libcurl4-openssl-dev
-    - libicu-dev
-    - libssl-dev
-    - libunwind8
+#osx not sure what is actually needed since source was geared towards linux
+#windows is new and added by first time travis user :)
+matrix: 
+  include:
+    - os: linux
+      script:
+        - ./build.sh clean+compile
+        - ./build.sh clean
+        - ./build.sh compile
+      dist: trusty
+      mono:
+        - 5.0.0
+      addons: 
+        apt:
+          sources:
+            - sourceline: 'deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-ubuntu-trusty-prod trusty main'
+              key_url: 'https://packages.microsoft.com/keys/microsoft.asc'
+          packages:
+            - gettext
+            - libcurl4-openssl-dev
+            - libicu-dev
+            - libssl-dev
+            - libunwind8
+    - os: osx
+      script:
+        - ./build.sh clean+compile
+        - ./build.sh clean
+        - ./build.sh compile
+      mono:
+        - 5.0.0
+      addons:
+          apt:
+            packages:
+              - gettext
+              - libcurl4-openssl-dev
+              - libicu-dev
+              - libssl-dev
+              - libunwind8
+    - os: windows
+      script:
+        - .\build.ps1 clean+compile
+        - .\build.ps1 clean
+        - .\build.ps1 compile
+      
 
-mono:
-  - 5.0.0
-
-script:
-  - ./build.sh clean+compile
-  - ./build.sh clean
-  - ./build.sh compile
 #  - ./build.sh pack+test
