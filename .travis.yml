@@ -13,6 +13,10 @@ matrix:
   include:
     - os: linux
       script:
+        - pwd
+        - ls
+        - ls -al
+        - find .
         - ./build.sh clean+compile
         - ./build.sh clean
         - ./build.sh compile
@@ -32,6 +36,10 @@ matrix:
             - libunwind8
     - os: osx
       script:
+        - pwd
+        - ls
+        - ls -al
+        - find .
         - ./build.sh clean+compile
         - ./build.sh clean
         - ./build.sh compile
