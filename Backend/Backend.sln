@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.27703.2047
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Inventory.Tests", "Inventory.Tests\Inventory.Tests.csproj", "{97F37179-F40E-42D1-85AC-028827BD4D53}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExampleCustomProtoBufStructure", "ExampleCustomProtoBufStructure\ExampleCustomProtoBufStructure.csproj", "{4666D5EB-7EBA-4AAA-8733-F9ABA8A1F402}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExampleCustomProtoBufStructure", "..\ExampleCustomProtoBufStructure\ExampleCustomProtoBufStructure.csproj", "{4666D5EB-7EBA-4AAA-8733-F9ABA8A1F402}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inventory", "Inventory\Inventory.csproj", "{6A8D9AE2-0349-4B77-BE79-F257A9593429}"
 EndProject

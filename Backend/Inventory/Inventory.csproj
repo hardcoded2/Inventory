@@ -5,7 +5,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\ExampleCustomProtoBufStructure\ExampleCustomProtoBufStructure.csproj" />
+      <ProjectReference Include="..\..\ExampleCustomProtoBufStructure\ExampleCustomProtoBufStructure.csproj" />
     </ItemGroup>
 
     <ItemGroup>
