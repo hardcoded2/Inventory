@@ -1,3 +1,2 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:3b2b7404973c078cf1f009bac530c9d4048378df08d3597ecb3aeeb50e8605f9
-size 75
+for local package dev, this worked fine
+file:D:/dev/AsinkProtobufPackage

@@ -1,3 +1,22 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:cba52e1870a6807a116dc92135957d450cef1e4fa81b03f4471f887b0c4163bb
-size 429
+using UnityEngine;
+
+namespace Datastores
+{
+    public class StringDatastore
+    {
+        public enum Keys
+        {
+            ITEM_VERSION=0,
+        }
+
+        public string GetKey(Keys key)
+        {
+            return PlayerPrefs.GetString(key.ToString());
+        }
+
+        public void Set(Keys key, string value)
+        {
+            PlayerPrefs.SetString(key.ToString(),value);
+        }
+    }
+}

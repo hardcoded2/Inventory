@@ -1,3 +1,8 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:2266e3e382730179dc4ea38ac348ccacd614980b8b7bda2558434a41245e3c33
-size 224
+{
+    "name": "com.google.protobuf",
+    "author": "google",
+    "displayName": "Google protobuf",
+    "version": "3.11.4",
+    "unity": "2018.1",
+    "description": "Google protobuf packaged lcoally as an example."
+}

@@ -1,3 +1,13 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:813f38af550c8948e4c17d41dc2f9203dadd47ca89ae0f8fa4c3af1b52975cac
-size 322
+{
+    "name": "Google.Protobuf",
+    "references": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

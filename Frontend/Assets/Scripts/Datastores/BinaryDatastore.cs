@@ -1,3 +1,31 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:aa28a0b262eb4bb9e6f720a73732f2fd264fc139e71fd2c5fc0d68051835e6e1
-size 713
+using System;
+using System.IO;
+using UnityEngine;
+
+namespace Datastores
+{
+    public class BinaryDatastore
+    {
+        public enum Keys
+        {
+            PlayerData,
+        }
+
+        private string KeyFilePath(Keys key)
+        {
+            //FIXME: persistentdatapath not unique enough for CI/multiple instances and off-thread
+            return Path.Combine(Application.persistentDataPath, key.ToString());
+        }
+        public byte[] GetData(Keys key)
+        {
+            try
+            {
+                return File.ReadAllBytes(KeyFilePath(key));
+            }
+            catch
+            {
+                return new byte[0];
+            }
+        }
+    }
+}
