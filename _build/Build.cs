@@ -89,7 +89,27 @@ class Build : NukeBuild
             var protogenGeneratedCsFiles = new DirectoryInfo(ProtogenOutputDir).EnumerateFiles("*.cs");
             protogenGeneratedCsFiles.ForEach(fileInfo => fileInfo.Delete());
             ExampleProtobufStructureDir.GlobDirectories("**/bin", "**/obj").ForEach(DeleteDirectory);
+            
+            //generated cs files in frontend
+            //Frontend\Assets\Scripts\ExampleData
+            AbsolutePath FrontendProtogenCSFileDir = RootDirectory / "Frontend/Assets/Scripts/ExampleData";
+            FrontendProtogenCSFileDir.GlobFiles("*.cs").ForEach(DeleteFile);
+            var frontendCSFiles = RootDirectory / "Frontend/Assets/Scripts/Protobufs/ProtoGenerated";
+            frontendCSFiles.GlobFiles("*.cs").ForEach(DeleteFile);
+            
+
         });
+/*
+    Target SymlinkFrontendToProtos => _ => _
+        .Executes(() =>
+        {
+            
+        });
+*/
+    void SymlinkFile(AbsolutePath originPath, AbsolutePath targetPath)
+    {
+        
+    }
 
     Target BuildProtosToDLL => _ => _
         .DependsOn(CleanGeneratedProtocs)
@@ -99,8 +119,10 @@ class Build : NukeBuild
             Logger.Normal($"where we are generating protobufs from {genProtosFromThisDir}");
             Protoc.Invoke(
                 "--proto_path=protos --csharp_out=gen protos/*.proto",genProtosFromThisDir);
+            //FIXME: add a md5 hash, like the unity process was doing to make this work the way we might want in development
             DotNetRestore(s => s
                 .SetProjectFile(ProtobufCSDLLSolution));
+            //TODO: addProperty for md5
             DotNetBuild(s => s
                 .SetProjectFile(ProtobufCSDLLSolution)
                 .SetConfiguration(Configuration)
@@ -112,6 +134,15 @@ class Build : NukeBuild
             var generatedFiles = (genProtosFromThisDir / "bin").GlobFiles("**"); //.GlobDirectories("**/bin", "**/obj");
             Logger.Normal($"Files: {string.Join(",",generatedFiles) }");
             //example debug configuration: Files: E:\dev\NukeTest\ExampleCustomProtoBufStructure\bin\Debug\netcoreapp3.1\ExampleCustomProtoBufStructure.deps.json,E:\dev\NukeTest\ExampleCustomProtoBufStructure\bin\Debug\netcoreapp3.1\ExampleCustomProtoBufStructure.dll,E:\dev\NukeTest\ExampleCustomProtoBufStructure\bin\Debug\netcoreapp3.1\ExampleCustomProtoBufStructure.pdb
+            
+            
+            ///////////////////////////COPY TO FRONTEND __-------WARNING
+            // WARNING - this is temporary code until who owns protobufs and how to manage partial classes/etc is figured out
+            /*
+            var frontendCSFiles = RootDirectory / "Frontend/Assets/Scripts/Protobufs/ProtoGenerated";
+            //FIXME: run again but output to unity project to make sure they're in sync
+            Protoc.Invoke($"--proto_path=protos --csharp_out={frontendCSFiles} protos/*.proto",genProtosFromThisDir);
+            */
         });
     Target Compile => _ => _
         .DependsOn(Restore)
@@ -126,5 +157,10 @@ class Build : NukeBuild
                 .SetInformationalVersion(GitVersion.InformationalVersion)
                 .EnableNoRestore());
         });
-    
+
+    Target Foo => _ => _
+        .Executes(() =>
+        {
+            
+        });
 }
