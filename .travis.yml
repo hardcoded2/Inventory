@@ -2,6 +2,7 @@ language: csharp
 os:
   - osx
   - linux
+  - windows
 
 sudo: required
 dist: trusty
