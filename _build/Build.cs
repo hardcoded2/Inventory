@@ -45,9 +45,8 @@ class Build : NukeBuild
 
     [GitRepository] readonly GitRepository GitRepository;
     [GitVersion] readonly GitVersion GitVersion;
-    [LocalExecutable("./tools/protoc/protoc.exe")] readonly Tool Protoc;
 
-    
+
     Target DevTests => _ => _
         .Executes(() =>
         {
@@ -111,14 +110,30 @@ class Build : NukeBuild
         
     }
 
+    void RunProtoc(string options, string absolutePath)
+    {
+        Logger.Normal($"where we are generating protobufs from {absolutePath}");
+        AbsolutePath protocLocation = RootDirectory / "tools/protoc/protoc.exe";
+        if (new DevTestPlatformTools().IsWindows())
+        {
+            var protocTool = ToolResolver.GetPathTool(protocLocation);
+            //[LocalExecutable("./tools/protoc/protoc.exe")] readonly Tool Protoc;
+            protocTool.Invoke(options,absolutePath);
+        }
+        else
+        {
+            var monoTool = ToolResolver.GetPathTool("mono");
+            //directory dupliated from protoc tool installation until we figure out mono
+            monoTool.Invoke($"{protocLocation} {options}",absolutePath);
+        }
+    }
+
     Target BuildProtosToDLL => _ => _
         .DependsOn(CleanGeneratedProtocs)
         .Executes(() =>
         {
             var genProtosFromThisDir = RootDirectory / "ExampleCustomProtoBufStructure";
-            Logger.Normal($"where we are generating protobufs from {genProtosFromThisDir}");
-            Protoc.Invoke(
-                "--proto_path=protos --csharp_out=gen protos/*.proto",genProtosFromThisDir);
+            RunProtoc("--proto_path=protos --csharp_out=gen protos/*.proto",genProtosFromThisDir);
             //FIXME: add a md5 hash, like the unity process was doing to make this work the way we might want in development
             DotNetRestore(s => s
                 .SetProjectFile(ProtobufCSDLLSolution));
