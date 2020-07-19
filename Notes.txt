@@ -1,3 +1,31 @@
+
+Issue #1
+new protobuf files need to be created with crlf line endings - .gitattributes in that folder will handle files from the repo, but you must 
+POTENTIAL solution:
+	1) automatically unix2dos/dos2unix the files and/or manully change the line endings while reading them in C#
+
+Issue #2
+mac and/or certain ides will not automatically run the hash before building
+
+Issue #3
+requires md5sum be installed on local machine, meaning windows needs cygwin in your path
+--this is a result of using a command line tool instead of a custom C# wrapper
+
+
+
+Issue #4
+need to work out proto ownership
+symlink seems like the best path
+
+Issue #5 
+travis ci
+
+Feature request
+-grpc instead of explicit endpoint definition
+
+Issue #6
+example lfs stubs may still be in repo, ie
 version https://git-lfs.github.com/spec/v1
 oid sha256:9e066bb0b37e80b9e27f0eda57a2e62bd28a91a5e6b0d81178630f84809268d7
 size 560
+
