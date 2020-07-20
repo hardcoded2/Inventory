@@ -20,10 +20,12 @@ matrix:
         - ls
         - ls -al
         - find .
+#        - sudo apt-get -y install 
+        - protoc --version
         - ./build.sh clean
         - ./build.sh compile
         - ./build.sh clean+compile
-      dist: bionic
+      dist: groovy
       addons: 
         apt:
           sources:
@@ -50,6 +52,7 @@ matrix:
         - ls
         - ls -al
         - find .
+        - protoc --version
         - ./build.sh clean --verbosity Verbose
         - ./build.sh compile --verbosity Verbose
         - ./build.sh clean+compile
