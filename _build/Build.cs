@@ -116,7 +116,7 @@ class Build : NukeBuild
         AbsolutePath protocLocation = RootDirectory / "tools/protoc/protoc.exe";
         if (new DevTestPlatformTools().IsWindows())
         {
-            var protocTool = ToolResolver.GetPathTool(protocLocation);
+            var protocTool = ToolResolver.GetLocalTool(protocLocation);
             //[LocalExecutable("./tools/protoc/protoc.exe")] readonly Tool Protoc;
             protocTool.Invoke(options,absolutePath);
         }
@@ -141,10 +141,13 @@ class Build : NukeBuild
             var genProtosFromThisDir = RootDirectory / "ExampleCustomProtoBufStructure";
             var protosBaseDir = genProtosFromThisDir / "protos";
             var files = protosBaseDir.GlobFiles("*.proto");
+            
             foreach (var file in files)
             {
                 RunProtoc($"--csharp_out=gen --proto_path={protosBaseDir}/ {file}",genProtosFromThisDir);
             }
+            
+            //RunProtoc($"--csharp_out=gen --proto_path={protosBaseDir}/ {string.Join(' ',files)}",genProtosFromThisDir);
             //RunProtoc($"--csharp_out=gen --proto_path={protosBaseDir}/ protos/*.proto",genProtosFromThisDir);
             //FIXME: add a md5 hash, like the unity process was doing to make this work the way we might want in development
             DotNetRestore(s => s
