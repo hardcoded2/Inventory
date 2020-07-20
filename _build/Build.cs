@@ -127,6 +127,7 @@ class Build : NukeBuild
             var protocTool = ToolResolver.GetPathTool("protoc"); //use a package manager to make sure that protoc is installed. if you see an error here
             //directory dupliated from protoc tool installation until we figure out mono
             protocTool.Invoke(" --version",absolutePath);
+            ToolResolver.GetPathTool("ls").Invoke("protos/*.proto", absolutePath); //temp to debug ls
             protocTool.Invoke($"{options}",absolutePath);
         }
     }
