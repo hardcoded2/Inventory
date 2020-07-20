@@ -127,7 +127,9 @@ class Build : NukeBuild
             var protocTool = ToolResolver.GetPathTool("protoc"); //use a package manager to make sure that protoc is installed. if you see an error here
             //directory dupliated from protoc tool installation until we figure out mono
             protocTool.Invoke(" --version",absolutePath);
-            ToolResolver.GetPathTool("ls").Invoke("protos/*.proto", absolutePath); //temp to debug ls
+            var genProtosFromThisDir = RootDirectory / "ExampleCustomProtoBufStructure";
+            var protosBaseDir = genProtosFromThisDir / "protos";
+            ToolResolver.GetPathTool("ls").Invoke($"{protosBaseDir}/*.proto", absolutePath); //temp to debug ls
             protocTool.Invoke($"{options}",absolutePath);
         }
     }
@@ -137,7 +139,8 @@ class Build : NukeBuild
         .Executes(() =>
         {
             var genProtosFromThisDir = RootDirectory / "ExampleCustomProtoBufStructure";
-            RunProtoc("--proto_path=protos --csharp_out=gen protos/*.proto",genProtosFromThisDir);
+            var protosBaseDir = genProtosFromThisDir / "protos";
+            RunProtoc($"--proto_path=protos --csharp_out=gen {protosBaseDir}/*.proto",genProtosFromThisDir);
             //FIXME: add a md5 hash, like the unity process was doing to make this work the way we might want in development
             DotNetRestore(s => s
                 .SetProjectFile(ProtobufCSDLLSolution));
