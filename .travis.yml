@@ -1,0 +1,88 @@
+language: csharp
+
+git:
+  symlinks: true
+  depth: false
+
+#osx not sure what is actually needed since source was geared towards linux
+#windows is new and added by first time travis user :)
+
+
+matrix: 
+  include:
+    - os: linux
+      dotnet: 3.1.202
+      mono:
+        - 5.0.0
+      script:
+        - echo -e "machine github.com\n  login $GITHUB_TOKEN" > ~/.netrc
+        - git lfs pull
+        - pwd
+        - ls
+        - ls -al
+        - find .
+        - sudo apt-get -y install protobuf-compiler
+        - protoc --version
+        - ./build.sh clean
+        - ./build.sh compile
+        - ./build.sh clean+compile
+      dist: groovy
+      addons: 
+        apt:
+          sources:
+            - sourceline: 'deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-ubuntu-trusty-prod trusty main'
+              key_url: 'https://packages.microsoft.com/keys/microsoft.asc'
+          packages:
+            - gettext
+            - libcurl4-openssl-dev
+            - libicu-dev
+            - libssl-dev
+            - libunwind8
+            - libprotobuf-dev
+            - protobuf-compiler
+            - git-lfs
+    - os: osx
+      dotnet: 3.1.202
+      mono:
+        - 5.0.0
+      #before_install:
+        #- brew install lfs 
+      script:
+        - echo -e "machine github.com\n  login $GITHUB_TOKEN" > ~/.netrc
+        - git lfs pull
+        - pwd
+        - ls
+        - ls -al
+        - find .
+        - protoc --version
+        - ./build.sh clean --verbosity Verbose
+        - ./build.sh compile --verbosity Verbose
+        - ./build.sh clean+compile
+      addons:
+          homebrew:
+            packages: 
+              - protobuf
+          apt:
+            packages:
+              - gettext
+              - libcurl4-openssl-dev
+              - libicu-dev
+              - libssl-dev
+              - libunwind8
+              - git-lfs
+    - os: windows
+      #dotnet: 3.1.202
+      mono: none
+      script:
+        - choco install dotnetcore-sdk
+        #- dotnet --version
+        - echo -e "machine github.com\n  login $GITHUB_TOKEN" > ~/.netrc
+        - git lfs pull
+#        - powershell -Command Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope CurrentUser
+        - powershell -Command "Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine"
+        - powershell -Command ./build.ps1 clean --verbosity Verbose
+        - powershell -Command ./build.ps1 compile --verbosity Verbose
+        - powershell -Command ./build.ps1 clean+compile --verbosity Verbose
+      
+
+#  - ./build.sh pack+test
