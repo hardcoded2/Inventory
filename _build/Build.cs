@@ -141,7 +141,7 @@ class Build : NukeBuild
             var genProtosFromThisDir = RootDirectory / "ExampleCustomProtoBufStructure";
             var protosBaseDir = genProtosFromThisDir / "protos";
             //var files = protosBaseDir.GlobFiles("*.proto");
-            RunProtoc($"--proto_path=protos --csharp_out=gen --proto_path={protosBaseDir}/ {protosBaseDir}/*.proto",genProtosFromThisDir);
+            RunProtoc($"--csharp_out=gen --proto_path={protosBaseDir}/ {protosBaseDir}/*.proto",genProtosFromThisDir);
             //FIXME: add a md5 hash, like the unity process was doing to make this work the way we might want in development
             DotNetRestore(s => s
                 .SetProjectFile(ProtobufCSDLLSolution));
