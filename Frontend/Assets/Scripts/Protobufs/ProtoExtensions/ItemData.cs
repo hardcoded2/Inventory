@@ -1,4 +1,5 @@
 using System.IO;
+using System.Linq;
 using Datastores;
 using ExampleData;
 using UnityEngine;
@@ -18,7 +19,10 @@ namespace Protobufs
         private static string GetItemDataHash()
         {
 #if UNITY_EDITOR
-            var protoItemBytes = File.ReadAllBytes(itemDataPath);
+            string itemDataPath = "Assets/StreamingAssets/ITEM_DATA_VERSION";
+            //string itemDataPath = AssetDatabase.FindAssets("name:ITEM_DATA_VERSION")?.FirstOrDefault();
+            if(string.IsNullOrEmpty(itemDataPath)) throw new Exception("no editor time hash file found"); 
+            var protoItemBytes = File.ReadAllBytes(itemDataPath); 
             using (var md5 = MD5.Create())
             {
                 var hash = md5.ComputeHash(protoItemBytes);
