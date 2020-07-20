@@ -20,7 +20,7 @@ matrix:
         - ls
         - ls -al
         - find .
-#        - sudo apt-get -y install 
+        - sudo apt-get -y install protobuf-compiler
         - protoc --version
         - ./build.sh clean
         - ./build.sh compile
