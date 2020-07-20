@@ -116,8 +116,8 @@ class Build : NukeBuild
         PlatformFamily platform = EnvironmentInfo.Platform;
         var protocEXELookup = new Dictionary<PlatformFamily, string>()
         {
-            {PlatformFamily.OSX,"protoc_mac.exe"},
-            {PlatformFamily.Linux,"protoc_linux.exe"},
+            {PlatformFamily.OSX,"protoc_mac"},
+            {PlatformFamily.Linux,"protoc_linux"},
             {PlatformFamily.Windows,"protoc.exe"}
         };
         AbsolutePath protocLocation = RootDirectory / $"tools/protoc/{protocEXELookup[platform]}";
