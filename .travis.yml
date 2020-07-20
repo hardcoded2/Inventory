@@ -50,6 +50,7 @@ matrix:
         #- brew install lfs 
       script:
         - echo -e "machine github.com\n  login $GITHUB_TOKEN" > ~/.netrc
+        - brew install git-lfs
         - git lfs install
         - git lfs pull
         - pwd
