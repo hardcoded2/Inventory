@@ -37,6 +37,7 @@ matrix:
             - libicu-dev
             - libssl-dev
             - libunwind8
+            - protobuf
     - os: osx
       script:
         - pwd
@@ -49,6 +50,9 @@ matrix:
       mono:
         - 5.0.0
       addons:
+          homebrew:
+            packages: 
+              - protobuf
           apt:
             packages:
               - gettext
