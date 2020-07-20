@@ -70,7 +70,7 @@ matrix:
       mono: none
       script:
         - choco install dotnetcore-sdk
-        - dotnet --version
+        #- dotnet --version
         - echo -e "machine github.com\n  login $GITHUB_TOKEN" > ~/.netrc
         - git lfs pull
         - .\build.ps1 clean+compile
