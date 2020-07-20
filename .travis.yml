@@ -76,6 +76,8 @@ matrix:
         #- dotnet --version
         - echo -e "machine github.com\n  login $GITHUB_TOKEN" > ~/.netrc
         - git lfs pull
+#        - powershell -Command Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope CurrentUser
+        - powershell -Command "Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine"
         - powershell -Command ./build.ps1 clean --verbosity Verbose
         - powershell -Command ./build.ps1 compile --verbosity Verbose
         - powershell -Command ./build.ps1 clean+compile --verbosity Verbose
