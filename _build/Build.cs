@@ -113,25 +113,25 @@ class Build : NukeBuild
     void RunProtoc(string options, string absolutePath)
     {
         Logger.Normal($"where we are generating protobufs from {absolutePath}");
-        AbsolutePath protocLocation = RootDirectory / "tools/protoc/protoc.exe";
-        if (new DevTestPlatformTools().IsWindows())
+        AbsolutePath protocLocation = null;
+        var platform = new DevTestPlatformTools().GetPlatform();
+        if (platform == OSPlatform.Windows)
         {
-            var protocTool = ToolResolver.GetLocalTool(protocLocation);
             //[LocalExecutable("./tools/protoc/protoc.exe")] readonly Tool Protoc;
-            protocTool.Invoke(options,absolutePath);
+            protocLocation = RootDirectory / "tools/protoc/protoc.exe";
         }
-        else
+
+        if (platform == OSPlatform.OSX)
         {
-            //var monoTool = ToolResolver.GetPathTool("mono");
-            //IF YOU SEE AN ERROR HERE, YOU MUST INSTALL PROTOC, not working around this for now, since mac and linux have more functional package managers
-            var protocTool = ToolResolver.GetPathTool("protoc"); //use a package manager to make sure that protoc is installed. if you see an error here
-            //directory dupliated from protoc tool installation until we figure out mono
-            protocTool.Invoke(" --version",absolutePath);
-            var genProtosFromThisDir = RootDirectory / "ExampleCustomProtoBufStructure";
-            var protosBaseDir = genProtosFromThisDir / "protos";
-            //ToolResolver.GetPathTool("ls").Invoke($"{protosBaseDir}/*.proto", absolutePath); //temp to debug ls
-            protocTool.Invoke($"{options}",absolutePath);
+            protocLocation = RootDirectory / "tools/protoc/protoc_mac.exe";
         }
+        if(platform == OSPlatform.Linux){
+            protocLocation = RootDirectory / "tools/protoc/protoc_linux.exe";
+
+        }
+        var protocTool = ToolResolver.GetLocalTool(protocLocation);
+
+        protocTool.Invoke($"{options}",absolutePath);
     }
 
     Target BuildProtosToDLL => _ => _
