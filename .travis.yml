@@ -37,7 +37,8 @@ matrix:
             - libicu-dev
             - libssl-dev
             - libunwind8
-            - protobuf
+            - protobuf-compiler
+            - git-lfs
     - os: osx
       script:
         - pwd
@@ -60,6 +61,7 @@ matrix:
               - libicu-dev
               - libssl-dev
               - libunwind8
+              - git-lfs
     - os: windows
       mono:
         - 5.0.0
