@@ -8,14 +8,14 @@ git:
 
 #osx not sure what is actually needed since source was geared towards linux
 #windows is new and added by first time travis user :)
-before_install:
-  - echo -e "machine github.com\n  login $GITHUB_TOKEN" > ~/.netrc
-  - git lfs pull
+
 
 matrix: 
   include:
     - os: linux
       script:
+        - echo -e "machine github.com\n  login $GITHUB_TOKEN" > ~/.netrc
+        - git lfs pull
         - pwd
         - ls
         - ls -al
@@ -37,10 +37,14 @@ matrix:
             - libicu-dev
             - libssl-dev
             - libunwind8
-            - protobuf-compiler
+            - protobuf
             - git-lfs
     - os: osx
+      #before_install:
+        #- brew install lfs 
       script:
+        - echo -e "machine github.com\n  login $GITHUB_TOKEN" > ~/.netrc
+        - git lfs pull
         - pwd
         - ls
         - ls -al
@@ -66,6 +70,8 @@ matrix:
       mono:
         - 5.0.0
       script:
+        - echo -e "machine github.com\n  login $GITHUB_TOKEN" > ~/.netrc
+        - git lfs pull
         - .\build.ps1 clean+compile
         - .\build.ps1 clean
         - .\build.ps1 compile
