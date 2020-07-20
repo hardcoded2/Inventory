@@ -26,7 +26,7 @@ matrix:
         - ./build.sh clean
         - ./build.sh compile
         - ./build.sh clean+compile
-      dist: groovy
+      dist: focal
       addons: 
         apt:
           sources:
