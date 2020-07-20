@@ -35,3 +35,10 @@ sysinfo.txt
 
 #idea (tools like rider ide)
 .idea
+
+/Assets/Scripts/Protobufs/ProtoFiles.meta
+/Assets/Scripts/Protobufs/ProtoFiles/
+/Assets/Scripts/Protobufs/ProtoGenerated.meta
+/Assets/Scripts/Protobufs/ProtoGenerated/
+#/Assets/Scripts/Protobufs/ProtoGenerated/**
+#/Assets/Scripts/Protobufs/ProtoGenerated/*
