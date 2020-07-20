@@ -76,9 +76,9 @@ matrix:
         #- dotnet --version
         - echo -e "machine github.com\n  login $GITHUB_TOKEN" > ~/.netrc
         - git lfs pull
-        - ./build.ps1 clean --verbosity Verbose
-        - ./build.ps1 compile --verbosity Verbose
-        - ./build.ps1 clean+compile --verbosity Verbose
+        - powershell -Command .\build.ps1 clean --verbosity Verbose
+        - powershell -Command .\build.ps1 compile --verbosity Verbose
+        - powershell -Command .\build.ps1 clean+compile --verbosity Verbose
       
 
 #  - ./build.sh pack+test
