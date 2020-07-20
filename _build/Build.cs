@@ -90,14 +90,19 @@ class Build : NukeBuild
             ExampleProtobufStructureDir.GlobDirectories("**/bin", "**/obj").ForEach(DeleteDirectory);
             
             //generated cs files in frontend
-            //Frontend\Assets\Scripts\ExampleData
-            AbsolutePath FrontendProtogenCSFileDir = RootDirectory / "Frontend/Assets/Scripts/ExampleData";
-            FrontendProtogenCSFileDir.GlobFiles("*.cs").ForEach(DeleteFile);
-            var frontendCSFiles = RootDirectory / "Frontend/Assets/Scripts/Protobufs/ProtoGenerated";
-            frontendCSFiles.GlobFiles("*.cs").ForEach(DeleteFile);
-            
-
+            //delete the symlink only so we're closer to where we started
+            DelFileOrDir(FrontendGeneratedCSPathDir());
+            DelFileOrDir(FrontendProtosPathDir());
         });
+
+    AbsolutePath FrontendGeneratedCSPathDir()
+    {
+        return RootDirectory / "Frontend/Assets/Scripts/Protobufs/ProtoGenerated";
+    }
+    AbsolutePath FrontendProtosPathDir()
+    {
+        return RootDirectory / "Frontend/Assets/Scripts/Protobufs/ProtoFiles";
+    }
 /*
     Target SymlinkFrontendToProtos => _ => _
         .Executes(() =>
@@ -105,9 +110,25 @@ class Build : NukeBuild
             
         });
 */
-    void SymlinkFile(AbsolutePath originPath, AbsolutePath targetPath)
+    void DelFileOrDir(AbsolutePath path)
     {
-        
+        if(File.Exists(path)) File.Delete(path);
+        if(Directory.Exists(path)) Directory.Delete(path);
+    }
+    void SymlinkFile(AbsolutePath originPath, AbsolutePath toPointToOriginPath)
+    {
+        DelFileOrDir(toPointToOriginPath);
+        //if(Directory.Exists(toPointToOriginPath)) Directory.Delete(toPointToOriginPath);
+        if (EnvironmentInfo.Platform == PlatformFamily.Windows)
+        {
+            string flag = "";
+            if (!File.Exists(originPath) && Directory.Exists(originPath)) flag = " /j ";
+            ToolResolver.GetPathTool("cmd").Invoke($"/c mklink {flag} {toPointToOriginPath} {originPath}");
+        }
+        else
+        {
+            ToolResolver.GetPathTool("ln").Invoke($" -s {originPath} {toPointToOriginPath}");
+        }
     }
 
     void RunProtoc(string options, string absolutePath)
@@ -138,6 +159,11 @@ class Build : NukeBuild
             {
                 RunProtoc($"--csharp_out=gen --proto_path={protosBaseDir}/ {file}",genProtosFromThisDir);
             }
+            
+            //point unity assets to protos output dir
+            AbsolutePath genDir = genProtosFromThisDir / "gen";
+            SymlinkFile(genDir, FrontendGeneratedCSPathDir());
+            SymlinkFile(protosBaseDir, FrontendProtosPathDir());
             
             //RunProtoc($"--csharp_out=gen --proto_path={protosBaseDir}/ {string.Join(' ',files)}",genProtosFromThisDir);
             //RunProtoc($"--csharp_out=gen --proto_path={protosBaseDir}/ protos/*.proto",genProtosFromThisDir);

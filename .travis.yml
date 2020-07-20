@@ -16,6 +16,7 @@ matrix:
         - 5.0.0
       script:
         - echo -e "machine github.com\n  login $GITHUB_TOKEN" > ~/.netrc
+        - git lfs install
         - git lfs pull
         - pwd
         - ls
@@ -49,6 +50,8 @@ matrix:
         #- brew install lfs 
       script:
         - echo -e "machine github.com\n  login $GITHUB_TOKEN" > ~/.netrc
+        - brew install git-lfs
+        - git lfs install
         - git lfs pull
         - pwd
         - ls
@@ -62,13 +65,6 @@ matrix:
           homebrew:
             packages: 
               - protobuf
-          apt:
-            packages:
-              - gettext
-              - libcurl4-openssl-dev
-              - libicu-dev
-              - libssl-dev
-              - libunwind8
               - git-lfs
     - os: windows
       #dotnet: 3.1.202
@@ -77,6 +73,7 @@ matrix:
         - choco install dotnetcore-sdk
         #- dotnet --version
         - echo -e "machine github.com\n  login $GITHUB_TOKEN" > ~/.netrc
+        - git lfs install
         - git lfs pull
 #        - powershell -Command Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope CurrentUser
         - powershell -Command "Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine"
