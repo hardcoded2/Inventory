@@ -90,12 +90,12 @@ class Build : NukeBuild
             ExampleProtobufStructureDir.GlobDirectories("**/bin", "**/obj").ForEach(DeleteDirectory);
             
             //generated cs files in frontend
-            if(File.Exists(FrontendCSPathDir())) File.Delete(FrontendCSPathDir()); //delete the symlink only so we're closer to where we started
-            if(File.Exists(FrontendProtosPathDir())) File.Delete(FrontendProtosPathDir());
-            //FrontendCSPathDir().GlobFiles("*.cs").ForEach(DeleteFile);
+            //delete the symlink only so we're closer to where we started
+            DelFileOrDir(FrontendGeneratedCSPathDir());
+            DelFileOrDir(FrontendProtosPathDir());
         });
 
-    AbsolutePath FrontendCSPathDir()
+    AbsolutePath FrontendGeneratedCSPathDir()
     {
         return RootDirectory / "Frontend/Assets/Scripts/Protobufs/ProtoGenerated";
     }
@@ -110,10 +110,14 @@ class Build : NukeBuild
             
         });
 */
+    void DelFileOrDir(AbsolutePath path)
+    {
+        if(File.Exists(path)) File.Delete(path);
+        if(Directory.Exists(path)) Directory.Delete(path);
+    }
     void SymlinkFile(AbsolutePath originPath, AbsolutePath toPointToOriginPath)
     {
-        if(File.Exists(toPointToOriginPath)) File.Delete(toPointToOriginPath);
-        if(Directory.Exists(toPointToOriginPath)) Directory.Delete(toPointToOriginPath);
+        DelFileOrDir(toPointToOriginPath);
         //if(Directory.Exists(toPointToOriginPath)) Directory.Delete(toPointToOriginPath);
         if (EnvironmentInfo.Platform == PlatformFamily.Windows)
         {
@@ -158,7 +162,7 @@ class Build : NukeBuild
             
             //point unity assets to protos output dir
             AbsolutePath genDir = genProtosFromThisDir / "gen";
-            SymlinkFile(genDir, FrontendCSPathDir());
+            SymlinkFile(genDir, FrontendGeneratedCSPathDir());
             SymlinkFile(protosBaseDir, FrontendProtosPathDir());
             
             //RunProtoc($"--csharp_out=gen --proto_path={protosBaseDir}/ {string.Join(' ',files)}",genProtosFromThisDir);
