@@ -113,6 +113,7 @@ class Build : NukeBuild
     void SymlinkFile(AbsolutePath originPath, AbsolutePath toPointToOriginPath)
     {
         if(File.Exists(toPointToOriginPath)) File.Delete(toPointToOriginPath);
+        if(Directory.Exists(toPointToOriginPath)) Directory.Delete(toPointToOriginPath);
         //if(Directory.Exists(toPointToOriginPath)) Directory.Delete(toPointToOriginPath);
         if (EnvironmentInfo.Platform == PlatformFamily.Windows)
         {
