@@ -8,7 +8,8 @@ git:
 
 #osx not sure what is actually needed since source was geared towards linux
 #windows is new and added by first time travis user :)
-
+dotnet: 3.1.202
+mono: none
 
 matrix: 
   include:
@@ -23,9 +24,7 @@ matrix:
         - ./build.sh clean+compile
         - ./build.sh clean
         - ./build.sh compile
-      dist: trusty
-      mono: 
-        - 5.0.0
+      dist: bionic
       addons: 
         apt:
           sources:
@@ -52,8 +51,6 @@ matrix:
         - ./build.sh clean+compile
         - ./build.sh clean
         - ./build.sh compile
-      mono:
-        - 5.0.0
       addons:
           homebrew:
             packages: 
@@ -67,8 +64,6 @@ matrix:
               - libunwind8
               - git-lfs
     - os: windows
-      mono:
-        - 5.0.0
       script:
         - echo -e "machine github.com\n  login $GITHUB_TOKEN" > ~/.netrc
         - git lfs pull
