@@ -129,7 +129,7 @@ class Build : NukeBuild
             protocTool.Invoke(" --version",absolutePath);
             var genProtosFromThisDir = RootDirectory / "ExampleCustomProtoBufStructure";
             var protosBaseDir = genProtosFromThisDir / "protos";
-            ToolResolver.GetPathTool("ls").Invoke($"{protosBaseDir}/*.proto", absolutePath); //temp to debug ls
+            //ToolResolver.GetPathTool("ls").Invoke($"{protosBaseDir}/*.proto", absolutePath); //temp to debug ls
             protocTool.Invoke($"{options}",absolutePath);
         }
     }
