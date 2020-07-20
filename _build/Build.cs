@@ -126,6 +126,7 @@ class Build : NukeBuild
             //IF YOU SEE AN ERROR HERE, YOU MUST INSTALL PROTOC, not working around this for now, since mac and linux have more functional package managers
             var protocTool = ToolResolver.GetPathTool("protoc"); //use a package manager to make sure that protoc is installed. if you see an error here
             //directory dupliated from protoc tool installation until we figure out mono
+            protocTool.Invoke(" --version",absolutePath);
             protocTool.Invoke($"{options}",absolutePath);
         }
     }
