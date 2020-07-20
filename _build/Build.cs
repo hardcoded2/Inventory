@@ -113,22 +113,15 @@ class Build : NukeBuild
     void RunProtoc(string options, string absolutePath)
     {
         Logger.Normal($"where we are generating protobufs from {absolutePath}");
-        AbsolutePath protocLocation = null;
         var platform = new DevTestPlatformTools().GetPlatform();
-        if (platform == OSPlatform.Windows)
+        
+        var protocEXELookup = new Dictionary<DevTestPlatformTools.OSPlatformEnum, string>()
         {
-            //[LocalExecutable("./tools/protoc/protoc.exe")] readonly Tool Protoc;
-            protocLocation = RootDirectory / "tools/protoc/protoc.exe";
-        }
-
-        if (platform == OSPlatform.OSX)
-        {
-            protocLocation = RootDirectory / "tools/protoc/protoc_mac.exe";
-        }
-        if(platform == OSPlatform.Linux){
-            protocLocation = RootDirectory / "tools/protoc/protoc_linux.exe";
-
-        }
+            {DevTestPlatformTools.OSPlatformEnum.MAC,"protoc_mac.exe"},
+            {DevTestPlatformTools.OSPlatformEnum.LINUX,"protoc_linux.exe"},
+            {DevTestPlatformTools.OSPlatformEnum.WINDOWS,"protoc.exe"}
+        };
+        AbsolutePath protocLocation = RootDirectory / $"tools/protoc/{protocEXELookup[platform]}";
         var protocTool = ToolResolver.GetLocalTool(protocLocation);
 
         protocTool.Invoke($"{options}",absolutePath);
