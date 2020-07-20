@@ -5,6 +5,13 @@ Example of a frontend and backend system using protobufs and unity
 ## Pre-alpha
 This is repo still very much in active development, and silly errors are currently tolerated since this is just a fun project for me
 
+Build status: [![Build Status](https://travis-ci.org/hardcoded2/Inventory.svg?branch=master)](https://travis-ci.org/hardcoded2/Inventory)
+
+Platform | CI Status
+---------|:---------
+OSX      | [![OSX Build Status](http://travis-ci.org/hardcoded2/Inventory.svg?env=BADGE=osx&label=build&branch=master)](http://travis-ci.org/hardcoded2/Inventory.svg?env=BADGE=osx&label=build&branch=master)
+Linux    | [![Linux Build Status](http://travis-ci.org/hardcoded2/Inventory.svg?env=BADGE=linux&label=build&branch=master)](http://travis-ci.org/hardcoded2/Inventory.svg?env=BADGE=linux&label=build&branch=master)
+Windows  | [![Windows Build status](http://travis-ci.org/hardcoded2/Inventory.svg?env=BADGE=windows&label=build&branch=master)](http://travis-ci.org/hardcoded2/Inventory.svg?env=BADGE=windows&label=build&branch=master)
 
 ## Goals
 1. Simple flow for updating data format
