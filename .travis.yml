@@ -66,7 +66,7 @@ matrix:
               - git-lfs
     - os: windows
       #dotnet: 3.1.202
-      #mono: none
+      mono: none
       script:
         - choco install dotnetcore-sdk
         - dotnet --version
